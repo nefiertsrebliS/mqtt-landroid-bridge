@@ -1,0 +1,18 @@
+{
+	"cloud": {
+	    "email": "yourmail@mailserver.org",
+	    "pwd": "TopSecret!",
+	    "type": "worx"
+	},
+	"mqtt": {
+	    "url": "mqtt://yourIPS-Server"
+	},
+	"mower": [
+		{
+		    "sn": "serialNumberOfYourMower",
+		    "topic": "yourbestmower"
+		}
+	],
+    "logLevel": "info"
+}
+

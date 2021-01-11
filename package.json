@@ -1,0 +1,17 @@
+{
+  "name": "mqtt-landroid-bridge",
+  "version": "1.0.0",
+  "homepage": "https://github.com/nefiertsrebliS/mqtt-landroid-bridge",
+  "description": "Bridge between Worx Landroid mower (Cloud) and IP Symcon",
+  "keywords": [
+    "IP Symcon",
+    "Worx",
+    "Landroid",
+    "Smart Home",
+    "home automation"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "iobroker.worx": "^1.2.7"
+  }
+}
