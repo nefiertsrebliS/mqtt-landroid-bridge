@@ -49,7 +49,7 @@ Please modify your config.json like this:
 		    "topic": "yourbestmower"
 		}
 	],
-    "logLevel": "info"
+	"logLevel": "info"
 }
 ```
 were
@@ -82,7 +82,7 @@ If you have more than one mower connected to your Cloud Account, please modify y
 		    "topic": "yourOthermower"
 		}
 	],
-    "logLevel": "debug"
+	"logLevel": "debug"
 }
 ```
 ## Managing mowers in different Clouds
