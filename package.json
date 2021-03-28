@@ -1,6 +1,6 @@
 {
   "name": "mqtt-landroid-bridge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/nefiertsrebliS/mqtt-landroid-bridge",
   "description": "Bridge between Worx Landroid mower (Cloud) and IP Symcon",
   "keywords": [

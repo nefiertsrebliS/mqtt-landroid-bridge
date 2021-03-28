@@ -53,6 +53,10 @@
 		config.logLevel = 0;
 	    adapter.log.error('logLevel is undefined! Your options are "info", "debug", "warn", "error", "silent". logLevel "info" is set');
 	}
+
+	// Set Servertyp
+    adapter.config.server = config.cloud.type;
+
 	// Establish MQTT Bridge
 	main();
 
