@@ -112,7 +112,7 @@
 						worxCloud.sendMessage(message.toString(), device.sn);
 					}else{
 						adapter.log.info('Forwarding rejected, Mower ('+device.sn+') is offline');
-						setOnlineStatus(device.sn, onlineStatus[device.sn]);
+						setOnlineStatus(device.sn, false);
 					}
 				}
 			});
@@ -128,17 +128,17 @@
 			config.mower.forEach(function(device) {
 				if(device.sn == mower.serial){
 					adapter.log.info('sucessfully connected with Mower ('+mower.serial+')');
-					setOnlineStatus(mower.serial, mower.online);
+					setOnlineStatus(mower.serial, mower.online?true:false);
 				}
 			});
         });
 
         worxCloud.on('online', function (mower) {
-			setOnlineStatus(mower.serial, mower.online);
+			setOnlineStatus(mower.serial, true);
         });
 
         worxCloud.on('offline', function (mower) {
-			setOnlineStatus(mower.serial, mower.online);
+			setOnlineStatus(mower.serial, false);
         });
 
 	    worxCloud.on('mqtt', (mower, mower_data) => {

@@ -103,6 +103,7 @@ To connect this Landroid Bridge to [IP-Symcon](https://www.symcon.de/), add the 
 | --------|-------------------------------------|
 | V1.00   | Baseversion							|
 | V1.01   | FIX: Servertype						|
+| V1.02   | FIX: Onlinestatus					|
 
 ## License
 
