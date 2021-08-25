@@ -27,7 +27,6 @@ To use this bridge, you need [IP-Symcon V5.0 or newer](https://www.symcon.de/) a
     ```
 1. Optional (Linux only): 
     1. Set up an init.d script to start the bridge on system startup (see example in initd-script folder).
-    1. Set up a systemctl script to start the bridge on system startup (see example in systemctl-script folder).
 
 ## Configuration
 

@@ -1,11 +1,11 @@
 #!/bin/sh
 
 APP_NAME="mqtt-landroid-bridge"
-USER="root" # Change this to your username, its a bad idea to run as root.
+USER="pi" # Change this to your username, its a bad idea to run as root.
 GROUP="$USER"
 NODE_ENV="production"
 PORT="3000"
-APP_DIR="/opt/mqtt-landroid-bridge" # Change this to your landroid directory
+APP_DIR="/home/pi/mqtt-landroid-bridge" # Change this to your landroid directory
 NODE_APP="bridge.js"
 KWARGS="" 
 CONFIG_DIR="$APP_DIR"
