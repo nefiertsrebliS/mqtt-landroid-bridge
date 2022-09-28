@@ -105,6 +105,7 @@ To connect this Landroid Bridge to [IP-Symcon](https://www.symcon.de/), add the 
 | V1.02   | FIX: Onlinestatus					|
 | V1.03   | FIX: ioBroker.worx Version 1.3.0	|
 | V1.04   | FIX: ioBroker.worx latest Version	|
+| V1.05   | FIX: new Worx Cloud login method	|
 
 ## License
 
