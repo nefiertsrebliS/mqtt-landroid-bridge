@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------
 // MQTT-Landroid-Bridge for Node.js
-// version 1.0.5
+// version 1.0.5 - Rev. 1
 // --------------------------------------------------------------------------------------------	
 
 	"use strict";
@@ -110,13 +110,13 @@
 		    adapter.log.info('Message received from '+topic+' - '+message.toString());
 			config.mower.forEach(function(device) {
 				if(device.topic+'/set/json' == topic){
-//					if(onlineStatus[device.sn]){
+					if(onlineStatus[device.sn]){
 						adapter.log.info('Forwarding to Mower ('+device.sn+')');
 						worxCloud.sendMessage(message.toString(), device.sn);
-//					}else{
-//						adapter.log.info('Forwarding rejected, Mower ('+device.sn+') is offline');
-//						setOnlineStatus(device.sn, false);
-//					}
+					}else{
+						adapter.log.info('Forwarding rejected, Mower ('+device.sn+') is offline');
+						setOnlineStatus(device.sn, false);
+					}
 				}
 			});
 		})
@@ -137,6 +137,8 @@
 				if(device.sn == mower.serial){
 					adapter.log.info('sucessfully connected with Mower ('+mower.serial+')');
 					setOnlineStatus(mower.serial, mower.online?true:false);
+//					worxCloud.start_mqtt(mower.raw);
+					worxCloud.start_mqtt();
 				}
 			});
         });
