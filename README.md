@@ -13,7 +13,7 @@ To use this bridge, you need [IP-Symcon V5.0 or newer](https://www.symcon.de/) a
 
 ## Setup
 
-1. Make sure you have [Node.js](https://nodejs.org) installed (tested with Node.js v12).
+1. Make sure you have [Node.js](https://nodejs.org) installed (tested with Node.js v16).
 1. Check out the source code and build it:
     ```
     git clone https://github.com/nefiertsrebliS/mqtt-landroid-bridge.git
