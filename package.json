@@ -12,6 +12,6 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "iobroker.worx": "github:iobroker-community-adapters/ioBroker.worx"
+    "iobroker.worx": "1.7.0"
   }
 }
