@@ -1,64 +1,55 @@
 // --------------------------------------------------------------------------------------------
 // MQTT-Landroid-Bridge for Node.js
-// version 1.0.5 - Rev. 1
+// version 2.0.0
 // --------------------------------------------------------------------------------------------	
 
 	"use strict";
 	const mqtt = require('mqtt');
-	const worx = require('iobroker.worx/lib/api');
+	const worx = require('./worxCloud');
 	const config = require('./config.json');
 	const logLevel = ['debug', 'info', 'warn', 'error', 'silent'];
+	const ping_interval = 1000 * 60; //1 Minute
 	var client;
 	var clientStatus = false;
-	var onlineStatus = {};
-	var data;
-	var mowerId;
 	var worxCloud;
-
+	
 	var adapter = {
-		config:{
-			server:"worx"
-		},
+		config: config,
 		log: {
+			logLevel: config.logLevel,
 			debug: function (msg) {
-				if(config.logLevel < 1) console.log(adapter.getTimestamp()+' DEBUG: ' + msg);
+				if(this.getLogLevel(this.logLevel) < 1) console.log(this.getTimestamp()+' DEBUG: ' + msg);
 			},
 			info: function (msg) {
-				if(config.logLevel < 2) console.log(adapter.getTimestamp()+' INFO: ' + msg);
+				if(this.getLogLevel(this.logLevel) < 2) console.log(this.getTimestamp()+' INFO: ' + msg);
 			},
 			warn: function (msg) {
-				if(config.logLevel < 3) console.log(adapter.getTimestamp()+' WARN: ' + msg);
+				if(this.getLogLevel(this.logLevel) < 3) console.log(this.getTimestamp()+' WARN: ' + msg);
 			},
 			error: function (msg) {
-				if(config.logLevel < 4) console.log(adapter.getTimestamp()+' ERROR: ' + msg);
+				if(this.getLogLevel(this.logLevel) < 4) console.log(this.getTimestamp()+' ERROR: ' + msg);
+			},
+			// Build Timestamp
+			getTimestamp : function() {
+				var date = new Date();
+				return date.toLocaleString();
+			},
+			// Get logLevel
+			getLogLevel : function(level) {
+				if(typeof level == "undefined"){
+					console.log(this.getTimestamp()+' ERROR: ' + 'logLevel is undefined! Your options are "info", "debug", "warn", "error", "silent". logLevel "info" is set');
+					return 0;
+				}else{
+					let levelint = logLevel.indexOf(config.logLevel.toLowerCase());
+					if(levelint < 0) {
+						console.log(this.getTimestamp()+' ERROR: ' + 'logLevel is undefined! Your options are "info", "debug", "warn", "error", "silent". logLevel "info" is set');
+						return 0;
+					}
+					return levelint;
+				}
 			}
 		},
-		msg: {
-			info: [],
-			error: [],
-			debug: [],
-			warn: []
-		},
-		// Build Timestamp
-		getTimestamp : function() {
-			var date = new Date();
-			return date.toUTCString();
-		},
-		setStateAsync : function(){
-			var info = {connection:{val: false, ack: true}};
-		},
 	};
-	
-	//Get logLevel
-	if(typeof config.logLevel == "undefined") config.logLevel = "";
-	config.logLevel = logLevel.indexOf(config.logLevel.toLowerCase());
-	if(config.logLevel < 0) {
-		config.logLevel = 0;
-	    adapter.log.error('logLevel is undefined! Your options are "info", "debug", "warn", "error", "silent". logLevel "info" is set');
-	}
-
-	// Set Servertyp
-    adapter.config.server = config.cloud.type;
 
 	// Establish MQTT Bridge
 	main();
@@ -66,22 +57,27 @@
 // --------------------------------------------------------------------------------------------	
 
 	// set OnlineStatus
-	function setOnlineStatus(sn, online) {
-		if(onlineStatus[sn] != online){
-			onlineStatus[sn] = online;
+	function setOnlineStatus(mower, online) {
+		if(mower['online'] != online){
 			config.mower.forEach(function(device) {
-				if(device.sn == sn){
-					adapter.log.info('Mower ('+sn+') with Topic "'+device.topic+'" is '+(online?'online':'offline'));
-					if(onlineStatus[sn] && clientStatus) adapter.log.info('Bridge for Mower ('+sn+') sucessfully established');
+				if(device.sn == mower.sn){
+					device['online'] = online;
+					adapter.log.info('Mower ('+mower.sn+') with Topic "'+device.topic+'" is '+(online?'online':'offline'));
+					if(device['online'] && clientStatus) adapter.log.info('Bridge for Mower ('+device.sn+') sucessfully established');
 				}
 			});
 		}
 		if(clientStatus)config.mower.forEach(function(device) {
-			if(device.sn == sn)	client.publish(device.topic+'/', '{"online":'+online+'}');
+			if(device.sn == mower.sn)	client.publish(device.topic+'/', '{"online":'+online+'}');
 		});
 	}
-	
+
 	async function main() {
+		// Mower Online-Status
+		config.mower.forEach(function(device) {
+			device['online'] = false;
+		});
+
 		// MQTT-Connection to local Server
 		client  = mqtt.connect(config.mqtt.url);
 		client.on('connect', function () {
@@ -90,11 +86,7 @@
 					if (!err) {
 						adapter.log.info('Topic '+device.topic+' sucessfully connected with local MQTT-Server');
 						clientStatus = true;
-						var online = false;
-						for (const key in onlineStatus) {
-							if(onlineStatus[key]) online = true;
-						}
-						if(online) adapter.log.info('Bridge sucessfully established');
+						setOnlineStatus(device, device['online']);
 					}
 				});
 			});
@@ -110,61 +102,45 @@
 		    adapter.log.info('Message received from '+topic+' - '+message.toString());
 			config.mower.forEach(function(device) {
 				if(device.topic+'/set/json' == topic){
-					if(onlineStatus[device.sn]){
+					if(device['online']){
 						adapter.log.info('Forwarding to Mower ('+device.sn+')');
 						worxCloud.sendMessage(message.toString(), device.sn);
 					}else{
 						adapter.log.info('Forwarding rejected, Mower ('+device.sn+') is offline');
-						setOnlineStatus(device.sn, false);
+						setOnlineStatus(device, false);
 					}
 				}
 			});
 		})
 
-		// MQTT-Connection to Cloud-Server
-		worxCloud = new worx(config.cloud.email, config.cloud.pwd, adapter);
-        await worxCloud.login();
+		worxCloud = new worx(adapter);
 
-		worxCloud.on('connect', worxc => {
-		    adapter.log.info('sucessfully connected with '+config.cloud.type+'Cloud!');
-        });
-        worxCloud.on('refresh', worxc => {
-		    adapter.log.info('sucessfully refreshed Access-Token');
-        });
-
-        worxCloud.on('found', function (mower) {
+        setInterval(() => {
 			config.mower.forEach(function(device) {
-				if(device.sn == mower.serial){
-					adapter.log.info('sucessfully connected with Mower ('+mower.serial+')');
-					setOnlineStatus(mower.serial, mower.online?true:false);
-//					worxCloud.start_mqtt(mower.raw);
-					worxCloud.start_mqtt();
+				if(worxCloud.CloudOnline)client.publish(device.topic+'/', '{"online":'+device['online']+'}');
+			});
+        }, ping_interval);
+
+		worxCloud.on('mqtt', (serial, data) => {
+			adapter.log.debug('Data for '+serial+': '+data);
+			//Send data to local MQTT-Server
+			config.mower.forEach(function(device) {
+				if(device.sn == serial){
+					setOnlineStatus(device, true);
+					client.publish(device.topic+'/', data);
 				}
 			});
         });
 
-        worxCloud.on('online', function (mower) {
-			setOnlineStatus(mower.serial, true);
-        });
-
-        worxCloud.on('offline', function (mower) {
-			setOnlineStatus(mower.serial, false);
-        });
-
-	    worxCloud.on('mqtt', (mower, mower_data) => {
-
-			setOnlineStatus(mower.serial, true);
-			//Send data to local MQTT-Server
+		worxCloud.on('online', (serial, online) => {
+			adapter.log.debug('Mower '+serial+' is '+((online)?'online':'offline'));
 			config.mower.forEach(function(device) {
-				if(device.sn == mower.serial) client.publish(device.topic+'/', JSON.stringify(mower_data));
+				if(device.sn == serial){
+					setOnlineStatus(device, online);
+				}
 			});
         });
 
-        worxCloud.on('error', err => {
-		    adapter.log.error(err);
-		    if(err.statusCode == 401){
-	            process.exit();
-			}
-        });
+		await worxCloud.StartUp();
 	}
 

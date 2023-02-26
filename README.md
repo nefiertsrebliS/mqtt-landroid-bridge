@@ -1,11 +1,11 @@
 # MQTT-Landroid-Bridge
 
-## Worx (Kress and Landxcape) adapter for IP-Symcon
+## Worx (Kress, Landxcape and Ferrex) adapter for IP-Symcon
 
 IP-Symcon-Mowercontrol via MQTT and cloud
 
-This adapter connects IP-Symcon with your Worx-, Kress- or Landxcape-mower via Cloud. 
-This bridge is powered by the [ioBroker.worx-Adapter](https://github.com/iobroker-community-adapters/ioBroker.worx) from the ioBroker-Community. Thanks to meisterTR and all the people, who build this great adapter.
+This adapter connects IP-Symcon with your Worx-, Kress- ,Landxcape- or Ferrex-mower via Cloud. 
+This bridge is based on the [ioBroker.worx-Adapter](https://github.com/iobroker-community-adapters/ioBroker.worx) from the ioBroker-Community. Thanks to all the people, who build this great adapter.
 
 ## Requisites
 
@@ -13,7 +13,7 @@ To use this bridge, you need [IP-Symcon V5.0 or newer](https://www.symcon.de/) a
 
 ## Setup
 
-1. Make sure you have [Node.js](https://nodejs.org) installed (tested with Node.js v16).
+1. Make sure you have [Node.js](https://nodejs.org) installed (tested with Node.js v18).
 1. Check out the source code and build it:
     ```
     git clone https://github.com/nefiertsrebliS/mqtt-landroid-bridge.git
@@ -26,7 +26,7 @@ To use this bridge, you need [IP-Symcon V5.0 or newer](https://www.symcon.de/) a
     node bridge.js
     ```
 1. Optional (Linux only): 
-    1. Set up an init.d script to start the bridge on system startup (see example in initd-script folder).
+    1. Set up an systemd script to start the bridge on system startup (see example in systemd-script folder).
 
 ## Configuration
 
@@ -100,18 +100,19 @@ To connect this Landroid Bridge to [IP-Symcon](https://www.symcon.de/), add the 
 
 | Version | Changes								|
 | --------|-------------------------------------|
-| V1.00   | Baseversion							|
-| V1.01   | FIX: Servertype						|
-| V1.02   | FIX: Onlinestatus					|
-| V1.03   | FIX: ioBroker.worx Version 1.3.0	|
-| V1.04   | FIX: ioBroker.worx latest Version	|
-| V1.05   | FIX: new Worx Cloud login method	|
+| V1.0.0  | Baseversion							|
+| V1.0.1  | FIX: Servertype						|
+| V1.0.2  | FIX: Onlinestatus					|
+| V1.0.3  | FIX: ioBroker.worx Version 1.3.0	|
+| V1.0.4  | FIX: ioBroker.worx latest Version	|
+| V1.0.5  | FIX: new Worx Cloud login method	|
+| V2.0.0  | New: based on ioBroker.worx V2.0.3<br> FIX: New Login-procedure for worxCloud	|
 
 ## License
 
 MIT License
 
-Copyright (c) 2021 nefiertsrebliS
+Copyright (c) 2023 nefiertsrebliS
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

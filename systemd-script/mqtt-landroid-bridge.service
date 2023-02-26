@@ -1,0 +1,26 @@
+[Unit]
+Description= node-app to connect your worxCloud with IP-Symcon
+After=remote-fs.target network.target
+
+[Service]
+# Change both to your username, its a bad idea to run as root.
+User=root
+Group=root
+# Change this to your landroid directory
+WorkingDirectory=/opt/mqtt-landroid-bridge
+StandardOutput=file:/var/log/mqtt-landroid-bridge.log
+StandardError=file:/var/log/mqtt-landroid-bridge.err
+
+##########################################
+# Please do not change this section
+##########################################
+ExecStart=/usr/bin/node bridge.js
+Type=simple
+TimeoutStopSec=20
+KillMode=process
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+

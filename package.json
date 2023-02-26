@@ -1,17 +1,35 @@
 {
   "name": "mqtt-landroid-bridge",
-  "version": "1.0.5",
-  "homepage": "https://github.com/nefiertsrebliS/mqtt-landroid-bridge",
-  "description": "Bridge between Worx Landroid mower (Cloud) and IP Symcon",
-  "keywords": [
-    "IP Symcon",
-    "Worx",
-    "Landroid",
-    "Smart Home",
-    "home automation"
+  "version": "2.0.0",
+  "description": "This bridge connects your IP-Symcon to the cloud of your  Worx, Kress, Landxcape or Ferrex",
+  "author": {
+    "name": "nefiertsrebliS"
+  },
+  "contributors": [
   ],
   "license": "MIT",
+  "keywords": [
+    "IP-Symcon",
+    "mower",
+    "Worx",
+    "Kress",
+    "Landxcape",
+    "Ferrex"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nefiertsrebliS/mqtt-landroid-bridge"
+  },
+  "engines": {
+    "node": ">= 14.18.2"
+  },
   "dependencies": {
-    "iobroker.worx": "1.7.0"
-  }
+    "aws-iot-device-sdk": "^2.2.12",
+    "axios": "^1.2.6",
+    "http-cookie-agent": "^5.0.2",
+    "mqtt": "^4.3.7",
+    "tough-cookie": "^4.1.2",
+    "uuid": "^9.0.0"
+  },
+  "readmeFilename": "README.md"
 }
