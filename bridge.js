@@ -6,7 +6,8 @@
 	"use strict";
 	const mqtt = require('mqtt');
 	const worx = require('./worxCloud');
-	const config = require('./config.json');
+	const updateConfig = require('./env');
+	const config = updateConfig(require('./config.json'));
 	const logLevel = ['debug', 'info', 'warn', 'error', 'silent'];
 	const ping_interval = 1000 * 60; //1 Minute
 	var client;
@@ -68,7 +69,7 @@
 			});
 		}
 		if(clientStatus)config.mower.forEach(function(device) {
-			if(device.sn == mower.sn)	client.publish(device.topic+'/', '{"online":'+online+'}');
+			if(device.sn == mower.sn)	client.publish(device.topic+'/'+device.statusTopic, '{"online":'+online+'}');
 		});
 	}
 
@@ -117,7 +118,7 @@
 
         setInterval(() => {
 			config.mower.forEach(function(device) {
-				if(worxCloud.CloudOnline)client.publish(device.topic+'/', '{"online":'+device['online']+'}');
+				if(worxCloud.CloudOnline)client.publish(device.topic+'/'+device.statusTopic, '{"online":'+device['online']+'}');
 			});
         }, ping_interval);
 
@@ -127,7 +128,7 @@
 			config.mower.forEach(function(device) {
 				if(device.sn == serial){
 					setOnlineStatus(device, true);
-					client.publish(device.topic+'/', data);
+					client.publish(device.topic+'/'+device.dataTopic, data);
 				}
 			});
         });

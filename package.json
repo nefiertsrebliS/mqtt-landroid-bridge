@@ -20,6 +20,9 @@
     "type": "git",
     "url": "https://github.com/nefiertsrebliS/mqtt-landroid-bridge"
   },
+  "scripts": {
+    "test": "jest"
+  },
   "engines": {
     "node": ">= 14.18.2"
   },
@@ -31,5 +34,8 @@
     "tough-cookie": "^4.1.2",
     "uuid": "^9.0.0"
   },
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "jest": "^29.5.0"
+  }
 }

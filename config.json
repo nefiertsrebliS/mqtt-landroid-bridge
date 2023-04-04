@@ -10,7 +10,9 @@
 	"mower": [
 		{
 		    "sn": "serialNumberOfYourMower",
-		    "topic": "yourbestmower"
+		    "topic": "yourbestmower",
+			"statusTopic": "",
+			"dataTopic": ""
 		}
 	],
     "logLevel": "info"

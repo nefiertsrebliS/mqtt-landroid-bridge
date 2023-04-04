@@ -45,7 +45,9 @@ Please modify your config.json like this:
 	"mower": [
 		{
 		    "sn": "serialNumberOfYourMower",
-		    "topic": "yourbestmower"
+		    "topic": "yourbestmower",
+			"statusTopic": "",
+			"dataTopic": ""
 		}
 	],
 	"logLevel": "info"
@@ -56,6 +58,7 @@ were
 * type is the type of your Mower and Cloud. It may be worx, landxcape or kress.
 * sn is the Serialnumber of your Mower. You may find it on your mower or on startup of this bridge in LogLevel "debug".
 * topic is a MQTT-topic of your choice to subscribe to on your IP-Symcon-MQTT-Server. Make sure, that your IP-Symcon MQTTworxGateway uses the same topic.
+* statusTopic and dataTopic should be left empty if used in combination with IP-Symcon-MQTT-Server but can be set to specify the sub-topic for online status and mower data respectively
 * for logLevel you have the options debug, info, warn, error and silent.
 
 ## Managing multiple mowers in the same Cloud
@@ -83,6 +86,21 @@ If you have more than one mower connected to your Cloud Account, please modify y
 	],
 	"logLevel": "debug"
 }
+```
+## Configuration using Environment Variables
+
+You can also configure the application using environment variables. This can be useful when running the application in a containerized environment like Docker. The environment variables should be in uppercase and have the same structure as the keys in the `config.json` file, separated by underscores. Here's an example of how to set environment variables for the configuration:
+
+```
+CLOUD_EMAIL=yourmail@mailserver.org
+CLOUD_PWD=TopSecret!
+CLOUD_TYPE=worx
+MQTT_URL=mqtt://yourIPS-Server
+MOWER_0_SN=serialNumberOfYourMower
+MOWER_0_TOPIC=yourbestmower
+MOWER_1_SN=serialNumberOfYourSecondMower
+MOWER_1_TOPIC=yourOthermower
+LOGLEVEL=debug
 ```
 ## Managing mowers in different Clouds
 
