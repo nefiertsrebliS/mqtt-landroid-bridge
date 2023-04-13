@@ -1,6 +1,6 @@
 [Unit]
 Description= node-app to connect your worxCloud with IP-Symcon
-After=remote-fs.target network.target
+After=remote-fs.target network-online.target
 
 [Service]
 # Change both to your username, its a bad idea to run as root.

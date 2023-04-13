@@ -8,6 +8,7 @@ const tough = require("tough-cookie");
 const { HttpsCookieAgent } = require("http-cookie-agent/http");
 const { v4: uuidv4 } = require("uuid");
 const ping_interval = 1000 * 60 * 10; //10 Minutes
+const update_interval = 1000 * 60 * 10; //10 Minutes
 const pingMqtt = false;
 
 class Worx extends EventEmitter{
@@ -95,7 +96,7 @@ class Worx extends EventEmitter{
 
             this.updateInterval = setInterval(async () => {
                 await this.updateDevices();
-            }, 10 * 60 * 1000); // 10 minutes
+            }, update_interval);
 
             this.refreshTokenInterval = setInterval(() => {
                 this.refreshToken();
