@@ -94,8 +94,7 @@
 		}
 		client.on('connect', function () {
 			config.mower.forEach(function(device) {
-				//var dtopic = (subtopic === true) ? device.topic+'/'+device.sn : device.topic;
-				var dtopic = device.topic;
+				var dtopic = (subtopic === true) ? device.topic+'/'+device.sn : device.topic;
 				client.subscribe(dtopic+'/set/json', function (err) {
 					if (!err) {
 						adapter.log.info('Topic '+dtopic+' sucessfully connected with local MQTT-Server');
@@ -115,8 +114,7 @@
 		  // message is Buffer
 		    adapter.log.info('Message received from '+topic+' - '+message.toString());
 			config.mower.forEach(function(device) {
-				//var dtopic = (subtopic === true) ? device.topic+'/'+device.sn : device.topic;
-				var dtopic = device.topic;
+				var dtopic = (subtopic === true) ? device.topic+'/'+device.sn : device.topic;
 				if(dtopic+'/set/json' == topic){
 					if(device['online']){
 						adapter.log.info('Forwarding to Mower ('+device.sn+')');
