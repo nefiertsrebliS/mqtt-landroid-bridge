@@ -84,9 +84,11 @@
 
 		// MQTT-Connection to local Server
 		var options = {};
-		config.mqtt.options.forEach(function(option) {
-			options[Object.keys(option)] = Object.values(option).toString();
-		});
+		if (config.mqtt.options){
+			config.mqtt.options.forEach(function(option) {
+				options[Object.keys(option)] = Object.values(option).toString();
+			});
+		}
 		client  = mqtt.connect(config.mqtt.url, options);
 		if (config.mqtt.subtopics === true){
 			subtopic = true;
