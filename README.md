@@ -88,6 +88,57 @@ If you have more than one mower connected to your Cloud Account, please modify y
 
 If your mowers ar in different clouds, please run seperat instances of this bridge for each cloud.
 
+## More MQTT options
+
+if you *do not* use IP Symcon with this bridge but use it with some other home automation (e. g. Loxone), you may need to add a more complex MQTT configuration.
+
+```
+{
+	"cloud": {
+	    "email": "yourmail@mailserver.org",
+	    "pwd": "TopSecret!",
+	    "type": "worx"
+	},
+        "mqtt": {
+            "url": "mqtt://yourMQTTbroker",
+            "subtopics": true,
+	    "options": [
+	        {
+	            "username": "mqttusername"
+	        },
+	        {
+	            "password": "mqttpassword"
+	        }
+	    ]
+        },
+	"mower": [
+		{
+		    "sn": "serialNumberOfYourMower",
+		    "topic": "yourbestmower"
+		}
+	],
+	"logLevel": "info"
+}
+```
+were
+* subtopics uses subtopics in your mqtt data structure if set to true
+* options will be passed to NodeJS's MQTT Client Constructor. See here for possible options: https://github.com/mqttjs/MQTT.js/#client
+
+If you set `subtopics": true` the bridge uses a more complex MQTT topic structure with additional subtopics. Please note that this is *not* compatible with the MQTTworx-Modul of IP-Symcon!
+
+MQTT topic structure without additional subtopics (default, `subtopics": false`):
+```
+<topic>/
+<topic>/set/json
+```
+
+MQTT topic structure with additional subtopics (`subtopics": true`):
+```
+<topic>/<sn>/status
+<topic>/<sn>/mowerdata
+<topic>/<sn>/set/json
+```
+
 ## Recommendation for the winter break
 
 If your mower is offline for a longer period, please disable the MQTT-Landroid-Bridge.
@@ -107,7 +158,7 @@ To connect this Landroid Bridge to [IP-Symcon](https://www.symcon.de/), add the 
 | V1.0.4  | FIX: ioBroker.worx latest Version	|
 | V1.0.5  | FIX: new Worx Cloud login method	|
 | V2.0.0  | New: based on ioBroker.worx V2.0.3<br> FIX: New Login-procedure for worxCloud	|
-| V2.0.1  | FIX: waiting for network online	|
+| V2.0.2  | New: More options for MQTT configuration	|
 
 ## License
 

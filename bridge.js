@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------
 // MQTT-Landroid-Bridge for Node.js
-// version 2.0.0
+// version 2.0.2
 // --------------------------------------------------------------------------------------------	
 
 	"use strict";
@@ -83,13 +83,19 @@
 		});
 
 		// MQTT-Connection to local Server
-		client  = mqtt.connect(config.mqtt.url);
+		var options = {};
+		config.mqtt.options.forEach(function(option) {
+			options[Object.keys(option)] = Object.values(option).toString();
+		});
+		client  = mqtt.connect(config.mqtt.url, options);
+		//client  = mqtt.connect(config.mqtt.url, options);
 		if (config.mqtt.subtopics === true){
 			subtopic = true;
 		}
 		client.on('connect', function () {
 			config.mower.forEach(function(device) {
-				var dtopic = (subtopic === true) ? device.topic+'/'+device.sn : device.topic;
+				//var dtopic = (subtopic === true) ? device.topic+'/'+device.sn : device.topic;
+				var dtopic = device.topic;
 				client.subscribe(dtopic+'/set/json', function (err) {
 					if (!err) {
 						adapter.log.info('Topic '+dtopic+' sucessfully connected with local MQTT-Server');
@@ -109,7 +115,8 @@
 		  // message is Buffer
 		    adapter.log.info('Message received from '+topic+' - '+message.toString());
 			config.mower.forEach(function(device) {
-				var dtopic = (subtopic === true) ? device.topic+'/'+device.sn : device.topic;
+				//var dtopic = (subtopic === true) ? device.topic+'/'+device.sn : device.topic;
+				var dtopic = device.topic;
 				if(dtopic+'/set/json' == topic){
 					if(device['online']){
 						adapter.log.info('Forwarding to Mower ('+device.sn+')');
