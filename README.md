@@ -158,7 +158,7 @@ To connect this Landroid Bridge to [IP-Symcon](https://www.symcon.de/), add the 
 | V1.0.4  | FIX: ioBroker.worx latest Version	|
 | V1.0.5  | FIX: new Worx Cloud login method	|
 | V2.0.0  | New: based on ioBroker.worx V2.0.3<br> FIX: New Login-procedure for worxCloud	|
-| V2.0.2  | New: More options for MQTT configuration	|
+| V2.0.1  | New: More options for MQTT configuration	|
 
 ## License
 
