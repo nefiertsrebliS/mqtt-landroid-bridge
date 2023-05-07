@@ -51,7 +51,7 @@ Please modify your config.json like this:
 	"logLevel": "info"
 }
 ```
-were
+where
 * email and pwd are your login-data of your Cloud.
 * type is the type of your Mower and Cloud. It may be worx, landxcape or kress.
 * sn is the Serialnumber of your Mower. You may find it on your mower or on startup of this bridge in LogLevel "debug".
@@ -90,7 +90,7 @@ If your mowers ar in different clouds, please run seperat instances of this brid
 
 ## More MQTT options
 
-if you *do not* use IP Symcon with this bridge but use it with some other home automation (e. g. Loxone), you may need to add a more complex MQTT configuration.
+If you **do not** use IP Symcon with this bridge but use it with some other home automation system (e. g. Loxone), you may need to add a more complex MQTT configuration.
 
 ```
 {
@@ -120,11 +120,11 @@ if you *do not* use IP Symcon with this bridge but use it with some other home a
 	"logLevel": "info"
 }
 ```
-were
+where
 * subtopics uses subtopics in your mqtt data structure if set to true
 * options will be passed to NodeJS's MQTT Client Constructor. See here for possible options: https://github.com/mqttjs/MQTT.js/#client
 
-If you set `subtopics": true` the bridge uses a more complex MQTT topic structure with additional subtopics. Please note that this is *not* compatible with the MQTTworx-Modul of IP-Symcon!
+If you set `subtopics": true` the bridge uses a more complex MQTT topic structure with additional subtopics. Please note that this is **not** compatible with the [MQTTworx-Modul](https://github.com/nefiertsrebliS/MQTTworx) of IP-Symcon!
 
 MQTT topic structure without additional subtopics (default, `subtopics": false`):
 ```
