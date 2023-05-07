@@ -12,6 +12,7 @@
 	var client;
 	var clientStatus = false;
 	var worxCloud;
+	var subtopic = false;
 	
 	var adapter = {
 		config: config,
@@ -68,7 +69,10 @@
 			});
 		}
 		if(clientStatus)config.mower.forEach(function(device) {
-			if(device.sn == mower.sn)	client.publish(device.topic+'/', '{"online":'+online+'}');
+			if(device.sn == mower.sn) {
+				var dtopic = (subtopic === true) ? device.topic+'/'+device.sn+'/status' : device.topic+'/';
+				client.publish(dtopic, '{"online":'+online+'}');
+			}
 		});
 	}
 
@@ -80,11 +84,15 @@
 
 		// MQTT-Connection to local Server
 		client  = mqtt.connect(config.mqtt.url);
+		if (config.mqtt.subtopics === true){
+			subtopic = true;
+		}
 		client.on('connect', function () {
 			config.mower.forEach(function(device) {
-				client.subscribe(device.topic+'/set/json', function (err) {
+				var dtopic = (subtopic === true) ? device.topic+'/'+device.sn : device.topic;
+				client.subscribe(dtopic+'/set/json', function (err) {
 					if (!err) {
-						adapter.log.info('Topic '+device.topic+' sucessfully connected with local MQTT-Server');
+						adapter.log.info('Topic '+dtopic+' sucessfully connected with local MQTT-Server');
 						clientStatus = true;
 						setOnlineStatus(device, device['online']);
 					}
@@ -101,7 +109,8 @@
 		  // message is Buffer
 		    adapter.log.info('Message received from '+topic+' - '+message.toString());
 			config.mower.forEach(function(device) {
-				if(device.topic+'/set/json' == topic){
+				var dtopic = (subtopic === true) ? device.topic+'/'+device.sn : device.topic;
+				if(dtopic+'/set/json' == topic){
 					if(device['online']){
 						adapter.log.info('Forwarding to Mower ('+device.sn+')');
 						worxCloud.sendMessage(message.toString(), device.sn);
@@ -117,7 +126,8 @@
 
         setInterval(() => {
 			config.mower.forEach(function(device) {
-				if(worxCloud.CloudOnline)client.publish(device.topic+'/', '{"online":'+device['online']+'}');
+				var dtopic = (subtopic === true) ? device.topic+'/'+device.sn+'/status' : device.topic+'/';
+				if(worxCloud.CloudOnline)client.publish(dtopic, '{"online":'+device['online']+'}');
 			});
         }, ping_interval);
 
@@ -127,7 +137,8 @@
 			config.mower.forEach(function(device) {
 				if(device.sn == serial){
 					setOnlineStatus(device, true);
-					client.publish(device.topic+'/', data);
+					var dtopic = (subtopic === true) ? device.topic+'/'+device.sn+'/mowerdata' : device.topic+'/';
+					client.publish(dtopic, data);
 				}
 			});
         });
