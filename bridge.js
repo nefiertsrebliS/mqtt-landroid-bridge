@@ -88,7 +88,6 @@
 			options[Object.keys(option)] = Object.values(option).toString();
 		});
 		client  = mqtt.connect(config.mqtt.url, options);
-		//client  = mqtt.connect(config.mqtt.url, options);
 		if (config.mqtt.subtopics === true){
 			subtopic = true;
 		}
