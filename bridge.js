@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------
 // MQTT-Landroid-Bridge for Node.js
-// version 2.0.2
+// version 2.0.3
 // --------------------------------------------------------------------------------------------	
 
 	"use strict";
@@ -149,11 +149,15 @@
 			});
         });
 
-		worxCloud.on('online', (serial, online) => {
+		worxCloud.on('online', (serial, online, json) => {
 			adapter.log.debug('Mower '+serial+' is '+((online)?'online':'offline'));
 			config.mower.forEach(function(device) {
 				if(device.sn == serial){
 					setOnlineStatus(device, online);
+					// Publish json from Cloud - useful in case MQTT is blocked for 24h
+					var dtopic = (subtopic === true) ? device.topic+'/'+device.sn+'/mowerdata' : device.topic+'/';
+					var data = JSON.parse(json);
+					client.publish(dtopic, JSON.stringify(data.last_status.payload));
 				}
 			});
         });

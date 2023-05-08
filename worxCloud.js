@@ -124,6 +124,7 @@ class Worx extends EventEmitter{
             }),
         })
             .then((response) => {
+                this.log.debug("Test");
                 this.log.debug(JSON.stringify(response.data));
                 this.session = response.data;
                 //this.setState("info.connection", true, true);
@@ -196,7 +197,7 @@ class Worx extends EventEmitter{
                         }
                         const data = res.data;
                         device = data;
-                        this.emit('online', device.serial_number, device.online);
+                        this.emit('online', device.serial_number, device.online, JSON.stringify(res.data));
                     })
                     .catch((error) => {
                         if (error.response) {

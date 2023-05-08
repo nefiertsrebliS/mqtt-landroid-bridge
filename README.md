@@ -160,6 +160,7 @@ To connect this Landroid Bridge to [IP-Symcon](https://www.symcon.de/), add the 
 | V2.0.0  | New: based on ioBroker.worx V2.0.3<br> FIX: New Login-procedure for worxCloud	|
 | V2.0.1  | FIX: waiting for network online	|
 | V2.0.2  | New: More options for MQTT configuration	|
+| V2.0.3  | New: Publish Cload Mower data if MQTT is blocked	|
 
 ## License
 
