@@ -124,7 +124,6 @@ class Worx extends EventEmitter{
             }),
         })
             .then((response) => {
-                this.log.debug("Test");
                 this.log.debug(JSON.stringify(response.data));
                 this.session = response.data;
                 //this.setState("info.connection", true, true);
