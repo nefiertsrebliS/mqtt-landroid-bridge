@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------
 // MQTT-Landroid-Bridge for Node.js
-// version 2.0.0
+// version 2.0.2
 // --------------------------------------------------------------------------------------------	
 
 	"use strict";
@@ -79,7 +79,16 @@
 		});
 
 		// MQTT-Connection to local Server
-		client  = mqtt.connect(config.mqtt.url);
+		if(typeof config.mqtt.options !== 'undefined'){
+			var options = {};
+			for (const [key, value] of Object.entries(config.mqtt.options)) {
+				options[key] = value.toString();
+			}
+			client  = mqtt.connect(config.mqtt.url, options);
+		}else{
+			client  = mqtt.connect(config.mqtt.url);
+		}
+
 		client.on('connect', function () {
 			config.mower.forEach(function(device) {
 				client.subscribe(device.topic+'/set/json', function (err) {

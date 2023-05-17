@@ -40,7 +40,13 @@ Please modify your config.json like this:
 	    "type": "worx"
 	},
 	"mqtt": {
-	    "url": "mqtt://yourIPS-Server"
+	    "url": "mqtt://yourIPS-Server",
+		"options":
+		{
+			"username": "justMe",
+			"password": "MySecret",
+			"port": 1883
+		}
 	},
 	"mower": [
 		{
@@ -51,12 +57,13 @@ Please modify your config.json like this:
 	"logLevel": "info"
 }
 ```
-were
+where
 * email and pwd are your login-data of your Cloud.
 * type is the type of your Mower and Cloud. It may be worx, landxcape or kress.
 * sn is the Serialnumber of your Mower. You may find it on your mower or on startup of this bridge in LogLevel "debug".
 * topic is a MQTT-topic of your choice to subscribe to on your IP-Symcon-MQTT-Server. Make sure, that your IP-Symcon MQTTworxGateway uses the same topic.
 * for logLevel you have the options debug, info, warn, error and silent.
+If you don't use a username or password, just leave the input field blank.
 
 ## Managing multiple mowers in the same Cloud
 
@@ -69,7 +76,13 @@ If you have more than one mower connected to your Cloud Account, please modify y
 	    "type": "kress"
 	},
 	"mqtt": {
-	    "url": "mqtt://yourIPS-Server"
+	    "url": "mqtt://yourIPS-Server",
+		"options":
+		{
+			"username": "justMe",
+			"password": "MySecret",
+			"port": 1883
+		}
 	},
 	"mower": [
 		{
@@ -107,7 +120,8 @@ To connect this Landroid Bridge to [IP-Symcon](https://www.symcon.de/), add the 
 | V1.0.4  | FIX: ioBroker.worx latest Version	|
 | V1.0.5  | FIX: new Worx Cloud login method	|
 | V2.0.0  | New: based on ioBroker.worx V2.0.3<br> FIX: New Login-procedure for worxCloud	|
-| V2.0.1  | FIX: waiting for network online	|
+| V2.0.1  | FIX: waiting for network online		|
+| V2.0.2  | New: MQTT-Options					|
 
 ## License
 

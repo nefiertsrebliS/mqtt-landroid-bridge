@@ -5,7 +5,13 @@
 	    "type": "worx"
 	},
 	"mqtt": {
-	    "url": "mqtt://yourIPS-Server"
+	    "url": "mqtt://yourIPS-Server",
+		"options":
+		{
+			"username": "",
+			"password": "",
+			"port": 1883
+		}
 	},
 	"mower": [
 		{
