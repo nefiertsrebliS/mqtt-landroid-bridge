@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------
 // MQTT-Landroid-Bridge for Node.js
-// version 2.0.2
+// version 2.0.3
 // --------------------------------------------------------------------------------------------	
 
 	"use strict";
@@ -68,7 +68,7 @@
 			});
 		}
 		if(clientStatus)config.mower.forEach(function(device) {
-			if(device.sn == mower.sn)	client.publish(device.topic+'/', '{"online":'+online+'}');
+			if(device.sn == mower.sn)	client.publish(device.topic+'/status', '{"online":'+online+'}');
 		});
 	}
 
@@ -126,7 +126,7 @@
 
         setInterval(() => {
 			config.mower.forEach(function(device) {
-				if(worxCloud.CloudOnline)client.publish(device.topic+'/', '{"online":'+device['online']+'}');
+				if(worxCloud.CloudOnline)client.publish(device.topic+'/status', '{"online":'+device['online']+'}');
 			});
         }, ping_interval);
 
@@ -136,16 +136,18 @@
 			config.mower.forEach(function(device) {
 				if(device.sn == serial){
 					setOnlineStatus(device, true);
-					client.publish(device.topic+'/', data);
+					client.publish(device.topic+'/mowerdata', data);
 				}
 			});
         });
 
-		worxCloud.on('online', (serial, online) => {
+		worxCloud.on('online', (serial, online, data) => {
 			adapter.log.debug('Mower '+serial+' is '+((online)?'online':'offline'));
+			adapter.log.debug('Mower '+serial+' has data: '+ JSON.stringify(data.last_status.payload));
 			config.mower.forEach(function(device) {
 				if(device.sn == serial){
 					setOnlineStatus(device, online);
+					client.publish(device.topic+'/mowerdata', JSON.stringify(data.last_status.payload));
 				}
 			});
         });

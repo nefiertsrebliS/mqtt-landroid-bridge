@@ -196,7 +196,7 @@ class Worx extends EventEmitter{
                         }
                         const data = res.data;
                         device = data;
-                        this.emit('online', device.serial_number, device.online);
+                        this.emit('online', device.serial_number, device.online, res.data);
                     })
                     .catch((error) => {
                         if (error.response) {
