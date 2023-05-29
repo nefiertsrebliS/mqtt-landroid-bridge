@@ -1,6 +1,6 @@
 {
   "name": "mqtt-landroid-bridge",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "This bridge connects your IP-Symcon to the cloud of your  Worx, Kress, Landxcape or Ferrex",
   "author": {
     "name": "nefiertsrebliS"
@@ -21,7 +21,7 @@
     "url": "https://github.com/nefiertsrebliS/mqtt-landroid-bridge"
   },
   "engines": {
-    "node": ">= 14.18.2"
+    "node": ">= 18.0.0"
   },
   "dependencies": {
     "aws-iot-device-sdk": "^2.2.12",

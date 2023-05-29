@@ -123,6 +123,7 @@ To connect this Landroid Bridge to [IP-Symcon](https://www.symcon.de/), add the 
 | V2.0.1  | FIX: waiting for network online		|
 | V2.0.2  | New: MQTT-Options					|
 | V2.0.3  | New: MQTT-Subtopic					|
+| V2.0.4  | FIX: parseJSON-error				|
 
 ## License
 

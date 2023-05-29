@@ -378,7 +378,6 @@ class Worx extends EventEmitter{
             this.mqttC.on("message", async (topic, message) => {
                 this.CloudOnline = true;
                 this.log.debug("NEW Message for "+topic+": "+message);
-                const data = JSON.parse(message);
                 this.mqtt_blocking = 0;
                 const mower = this.deviceArray.find((mower) => mower.mqtt_topics.command_out === topic);
                 const merge = this.deviceArray.findIndex((merge) => merge.mqtt_topics.command_out === topic);
@@ -388,7 +387,9 @@ class Worx extends EventEmitter{
                         "Worxcloud MQTT get Message for mower " + mower.name + " (" + mower.serial_number + ")"
                     );
                     this.emit('mqtt', mower.serial_number, message);
+                    var data;
                     try {
+                        data = JSON.parse(message);
                         if (this.mqtt_response_check[data.cfg.id]) {
                             this.log.debug(`Request ID ${data.cfg.id} has been passed to the mower`);
                             // Rückmeldung an IP-Symcon?
