@@ -124,6 +124,7 @@ To connect this Landroid Bridge to [IP-Symcon](https://www.symcon.de/), add the 
 | V2.0.2  | New: MQTT-Options					|
 | V2.0.3  | New: MQTT-Subtopic					|
 | V2.0.4  | FIX: parseJSON-error				|
+| V2.0.5  | FIX: cloud-URL						|
 
 ## License
 
