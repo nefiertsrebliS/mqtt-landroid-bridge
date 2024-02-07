@@ -1,7 +1,7 @@
 # MQTT-Landroid-Bridge
 
 ## Worx (Kress, Landxcape and Ferrex) adapter for IP-Symcon
-
+### This repository has been closed and is no longer supported with updates
 IP-Symcon-Mowercontrol via MQTT and cloud
 
 This adapter connects IP-Symcon with your Worx-, Kress- ,Landxcape- or Ferrex-mower via Cloud. 
